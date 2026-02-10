@@ -9,7 +9,6 @@ class LatestPosts
 {
   protected static $name = 'latest-posts';
   protected static $title;
-  protected static $description;
 
   public static function init()
   {
@@ -19,9 +18,11 @@ class LatestPosts
 
   public static function register()
   {
+    static::$title = __('Latest articles', 'theme');
+
     acf_register_block_type([
       'name' => static::$name,
-      'title' => __('Latest articles', 'theme'),
+      'title' => static::$title,
       'description' => __(
         'Three latest articles, can be filtered by category',
         'theme'
