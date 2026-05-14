@@ -1,6 +1,6 @@
 # Start
 
-WordPress starter project for custom theme development with Composer, Glide, Vite, Tailwind CSS, Prettier, Deployer, Gutenberg, Advanced Custom Fields and other tools I like.
+WordPress starter project for custom theme development with Composer, Glide, Vite, Tailwind CSS, Prettier, Deployer, Gutenberg, Advanced Custom Fields and other tools we like.
 
 It contains a few useful WordPress plugins, development tools and a custom starter theme to get a head start with custom theme development. The theme contains a few simple templates, styles and scripts and some PHP classes with sensible defaults that can be easily customized.
 
