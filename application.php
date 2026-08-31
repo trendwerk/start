@@ -88,6 +88,11 @@ Config::define('SECURE_AUTH_SALT', env('SECURE_AUTH_SALT'));
 Config::define('LOGGED_IN_SALT', env('LOGGED_IN_SALT'));
 Config::define('NONCE_SALT', env('NONCE_SALT'));
 
+$env_config = "{$root_dir}/config/environments/" . WP_ENV . '.php';
+if (file_exists($env_config)) {
+  require_once $env_config;
+}
+
 // Allow WordPress to detect HTTPS when used behind a reverse proxy or a load balancer
 if (
   isset($_SERVER['HTTP_X_FORWARDED_PROTO']) &&

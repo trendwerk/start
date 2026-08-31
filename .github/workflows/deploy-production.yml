@@ -22,7 +22,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v5
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -30,7 +30,13 @@ jobs:
           php-version: '8.3'
 
       - name: Deploy via deployer
-        uses: deployphp/action@v1
+        uses: deployphp/action@v1.0.26
         with:
           dep: deploy production
           private-key: ${{ secrets.PRIVATE_KEY_PRODUCTION }}
+
+      - name: Smoke-check production
+        run: |
+          code=$(curl -sS -o /dev/null -w "%{http_code}" -L --max-time 30 https://start.trendwerk.dev/)
+          echo "HTTP $code"
+          test "$code" = "200"

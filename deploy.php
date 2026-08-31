@@ -24,8 +24,8 @@ set('shared_dirs', ['web/wp-content/uploads']);
 host('production')
   ->set('branch', 'main')
   ->set('hostname', 'tw-server-05.twservices.eu')
-  ->set('remote_user', 'start.bonsjoerd.eu')
-  ->set('remote_url', 'https://start.bonsjoerd.eu');
+  ->set('remote_user', 'start.trendwerk.dev')
+  ->set('remote_url', 'https://start.trendwerk.dev');
 
 // Custom tasks
 
