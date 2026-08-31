@@ -1,4 +1,4 @@
 .section {
-  @apply mb-15 mt-10;
-  @apply md:mb-25 md:mt-20;
+  @apply mt-10 mb-15;
+  @apply md:mt-20 md:mb-25;
 }

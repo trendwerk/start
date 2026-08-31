@@ -10,19 +10,23 @@ class Page
   use IsPost;
   use HasFields;
 
-  public static $postType = 'page';
-  public static $labels;
+  public static string $postType = 'page';
+  public static array $labels;
 
-  public static function init()
+  public static function init(): void
   {
     static::$labels = [
       'name' => __('Pages', 'theme'),
       'singular_name' => __('Page', 'theme'),
     ];
 
+    // Register page fields
     add_action('acf/init', [static::class, 'registerFields']);
   }
 
+  /**
+   * Register page fields.
+   */
   public static function registerFields()
   {
     $key = static::$postType;

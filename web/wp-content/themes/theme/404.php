@@ -12,7 +12,7 @@
       <?= __(
         'Unfortunately, this page does not exist. You can go to the homepage, or use the menu above to navigate to other pages.',
         'theme'
-      ) ?>
+      ); ?>
     </p>
 
     <?= component('button', [
@@ -22,5 +22,5 @@
   </div>
 </main>
 
-<?= component('cta') ?>
-<?= component('footer') ?>
+<?= component('cta'); ?>
+<?= component('footer'); ?>

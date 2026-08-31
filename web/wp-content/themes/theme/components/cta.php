@@ -1,4 +1,7 @@
-<footer class="wrapper">
+<footer
+  class="wrapper"
+  data-name="cta"
+>
   <?php if (isset($p) && $p->field('show_cta')) { ?>
     <?php
     $title = $p->field('cta_title') ?: get_field('cta_title', 'option');

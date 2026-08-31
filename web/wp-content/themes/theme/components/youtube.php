@@ -12,11 +12,14 @@ if ($status !== 200) {
 }
 ?>
 
-<div class="w-full aspect-video overflow-hidden rounded-md shadow-md bg-gray-600 mb-6 group relative">
+<div
+  class="w-full aspect-video overflow-hidden rounded-md shadow-md bg-gray-600 mb-6 group relative"
+  data-name="youtube"
+>
   <button
     aria-label="Play YouTube video"
     class="youtube absolute top-0 left-0 w-full h-full group cursor-pointer"
-    data-youtube-id="<?= $youtubeId ?>"
+    data-youtube-id="<?= $youtubeId; ?>"
   >
     <div
       class="absolute top-1/2 left-1/2 flex aspect-square w-1/6 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-primary-600 text-white transition-colors group-hover:bg-primary-800"
@@ -38,10 +41,10 @@ if ($status !== 200) {
         absolute left-0 top-0 w-full h-full object-cover
         group-hover:scale-110 transition-transform ease-out duration-300
       "
-      src="<?= $image ?>"
-      width="720"
-      height="<?= round((720 / 16) * 9) ?>"
+      height="<?= round((720 / 16) * 9); ?>"
       loading="lazy"
+      src="<?= $image; ?>"
+      width="720"
     />
   </button>
 </div>

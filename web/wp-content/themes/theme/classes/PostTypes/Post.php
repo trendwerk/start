@@ -12,19 +12,23 @@ class Post
   use IsPost;
   use HasFields;
 
-  public static $postType = 'post';
-  public static $labels;
+  public static string $postType = 'post';
+  public static array $labels;
 
-  public static function init()
+  public static function init(): void
   {
     static::$labels = [
       'name' => __('Posts', 'theme'),
       'singular_name' => __('Post', 'theme'),
     ];
 
+    // Register post fields
     add_action('acf/init', [static::class, 'registerFields']);
   }
 
+  /**
+   * Register post fields.
+   */
   public static function registerFields()
   {
     $key = static::$postType;
@@ -57,12 +61,14 @@ class Post
     ]);
   }
 
-  // Returns the post author, date and categories as a string
+  /**
+   * Return the post author, date and categories as a string.
+   */
   public function meta(
     bool $showAuthor = true,
     bool $showDate = true,
     bool $showCategories = true
-  ) {
+  ): ?string {
     $meta = [];
 
     // Author
@@ -86,8 +92,8 @@ class Post
     if ($showCategories && ($categories = $this->categories())) {
       $label =
         count($categories) == 1
-        ? __('category', 'theme')
-        : __('categories', 'theme');
+          ? __('category', 'theme')
+          : __('categories', 'theme');
 
       $categories = array_map(function ($term) {
         $class =
@@ -112,8 +118,10 @@ class Post
     return $meta;
   }
 
-  // Returns the related posts of the current post, based on matching tags or categories
-  public function related($number = 3)
+  /**
+   * Return related posts of the current post, based on matching tags or categories.
+   */
+  public function related(int $number = 3): array
   {
     $posts = [];
     $query = [

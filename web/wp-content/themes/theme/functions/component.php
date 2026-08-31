@@ -1,6 +1,9 @@
 <?php
-// Get template component from components folder with optional args
-function component(string $name, array $args = [])
+
+/**
+ * Render a template file from the components folder.
+ */
+function component(string $name, array $args = []): string
 {
   $file = dirname(__FILE__, 2) . '/components/' . $name . '.php';
 

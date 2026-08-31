@@ -4,10 +4,13 @@ use Theme\Menu;
 $menu = new Menu('footer');
 ?>
 
-<footer class="
-  wrapper py-6 flex items-center gap-2 text-center flex-col
-  lg:py-8 lg:flex-row lg:justify-between
-">
+<footer
+  class="
+    wrapper py-6 flex items-center gap-2 text-center flex-col
+    lg:py-8 lg:flex-row lg:justify-between
+  "
+  data-name="footer"
+>
   <div class="px-4 py-1">
     &copy; <?= date('Y'); ?> - <?= get_bloginfo('name'); ?>
   </div>

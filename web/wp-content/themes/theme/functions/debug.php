@@ -1,7 +1,10 @@
 <?php
-// Dump a variable and die
+
+/**
+ * Dump a variable.
+ */
 if (!function_exists('debug')) {
-  function debug($var)
+  function debug($var): void
   {
     ?>
     <div class="
@@ -23,25 +26,32 @@ if (!function_exists('debug')) {
   }
 }
 
-// Log a variable to debug.log
+/**
+ * Log a variable to debug.log.
+ */
 if (!function_exists('debug_log')) {
-  function debug_log($vars)
+  function debug_log($vars): void
   {
     error_log(json_encode($vars));
   }
 }
 
-// Aliasses
+/**
+ * Dump a variable.
+ */
 if (!function_exists('dump')) {
-  function dump($vars)
+  function dump($vars): void
   {
-    return debug($vars);
+    debug($vars);
   }
 }
 
+/**
+ * Dump a variable.
+ */
 if (!function_exists('dd')) {
-  function dd($vars)
+  function dd($vars): void
   {
-    return debug($vars);
+    debug($vars);
   }
 }

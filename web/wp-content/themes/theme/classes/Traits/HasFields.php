@@ -6,7 +6,10 @@ use Theme\GeneralContent;
 
 trait HasFields
 {
-  protected static function headerFields(string $key)
+  /**
+   * Header image fields for a field group.
+   */
+  protected static function headerFields(string $key): array
   {
     return [
       [
@@ -28,8 +31,13 @@ trait HasFields
     ];
   }
 
-  protected static function ctaFields(string $key, bool $isOptionsPage = false)
-  {
+  /**
+   * Call to action fields for a field group.
+   */
+  protected static function ctaFields(
+    string $key,
+    bool $isOptionsPage = false
+  ): array {
     return array_merge(
       [
         [
@@ -110,11 +118,14 @@ trait HasFields
     );
   }
 
+  /**
+   * Repeater fields for a set of buttons.
+   */
   protected static function buttonsFields(
     string $key,
     string $prefix,
     array $args = []
-  ) {
+  ): array {
     return [
       array_merge(
         [
@@ -153,7 +164,10 @@ trait HasFields
     ];
   }
 
-  private static function defaultInstructions()
+  /**
+   * Instructions that point to the default value in general content settings.
+   */
+  private static function defaultInstructions(): string
   {
     $title = GeneralContent::$title;
     $adminUrl = esc_url(admin_url('admin.php?page=' . GeneralContent::$name));

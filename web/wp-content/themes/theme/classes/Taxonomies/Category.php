@@ -9,10 +9,12 @@ class Category
 {
   use IsTerm;
 
-  static $taxonomy = 'category';
+  public static string $taxonomy = 'category';
 
-  // Get latest post from this category
-  public function posts($number = 10)
+  /**
+   * Get the latest posts from this category.
+   */
+  public function posts(int $number = 10): array
   {
     $ids = get_posts([
       'fields' => 'ids',

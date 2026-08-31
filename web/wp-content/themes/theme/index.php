@@ -42,7 +42,7 @@ $posts = array_map(function ($post) {
 
 <main class="section">
   <div class="wrapper">
-    <h1><?= $title ?></h1>
+    <h1><?= $title; ?></h1>
     <?= component('posts', ['posts' => $posts]); ?>
     <?= component('pagination'); ?>
   </div>

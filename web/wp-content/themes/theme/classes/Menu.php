@@ -4,23 +4,37 @@ namespace Theme;
 
 class Menu
 {
-  private $menu;
-  private static $currentUrl = '';
+  private mixed $menu;
+  private static string $currentUrl = '';
 
-  public static function init()
+  public static function init(): void
   {
+    // Register menus
     add_action('after_setup_theme', [static::class, 'register']);
+
+    // Set the current URL so current and parent menu items can be determined
     add_action('wp', [static::class, 'setCurrentUrl']);
   }
 
-  // Register menu's
+  /**
+   * Register menus.
+   */
   public static function register()
   {
     register_nav_menu('main', __('Main menu', 'theme'));
     register_nav_menu('footer', __('Footer menu', 'theme'));
   }
 
-  // Get menu and save menu object by menu location
+  /**
+   * Set the current URL so current and parent menu pages can be determined.
+   */
+  public static function setCurrentUrl()
+  {
+    global $wp;
+    $request = $wp->request ?? '';
+    static::$currentUrl = trailingslashit(home_url($request));
+  }
+
   public function __construct(?string $location = null)
   {
     // Bail if location is not provided
@@ -41,28 +55,24 @@ class Menu
     $this->menu = wp_get_nav_menu_object($locations[$location]);
   }
 
-  // Set current URL so we can determine the current and parent menu pages
-  public static function setCurrentUrl()
-  {
-    global $wp;
-    $request = $wp->request ?? '';
-    static::$currentUrl = trailingslashit(home_url($request));
-  }
-
-  // Get menu title
-  public function name()
+  /**
+   * Get the menu title.
+   */
+  public function name(): string
   {
     return $this->menu ? $this->menu->name : '';
   }
 
-  // Get menu items
-  public function items()
+  /**
+   * Get nested menu items.
+   */
+  public function items(): array
   {
     if (!$this->menu) {
       return [];
     }
 
-    $menuIdentifier = $this->menu->term_id ?? $this->menu->name ?? null;
+    $menuIdentifier = $this->menu->term_id ?? ($this->menu->name ?? null);
 
     if (!$menuIdentifier) {
       return [];
@@ -82,8 +92,10 @@ class Menu
     return $items ?: [];
   }
 
-  // Build a nested array from a flat menu items array
-  private function buildTree(array &$items, $parentId = 0)
+  /**
+   * Build a nested array from a flat menu items array.
+   */
+  private function buildTree(array &$items, int $parentId = 0): array
   {
     $output = [];
 
@@ -101,8 +113,10 @@ class Menu
     return $output;
   }
 
-  // Add isCurrent to menu item
-  private function addIsCurrent($items)
+  /**
+   * Add isCurrent to each menu item.
+   */
+  private function addIsCurrent(array $items): array
   {
     $items = array_map(function ($item) {
       $item->isCurrent = $item->url === static::$currentUrl;
@@ -113,8 +127,10 @@ class Menu
     return $items;
   }
 
-  // Add isParent to parent menu items
-  private function addIsParent($items)
+  /**
+   * Add isParent to parent menu items.
+   */
+  private function addIsParent(array $items): array
   {
     if (!$items) {
       return [];
@@ -135,16 +151,19 @@ class Menu
     }, $items);
   }
 
-  private function getSubitemUrls($item)
+  /**
+   * Collect URLs of all nested menu items.
+   */
+  private function getSubitemUrls(object $item): array
   {
     $urls = [];
     $children = $item->children ?? [];
 
-    foreach ($children as $subitem) {
-      $urls[] = $subitem->url;
+    foreach ($children as $subItem) {
+      $urls[] = $subItem->url;
 
-      if (!empty($subitem->children)) {
-        $urls = array_merge($urls, $this->getSubitemUrls($subitem));
+      if (!empty($subItem->children)) {
+        $urls = array_merge($urls, $this->getSubitemUrls($subItem));
       }
     }
 

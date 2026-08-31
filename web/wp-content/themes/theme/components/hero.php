@@ -1,4 +1,7 @@
-<header class="wrapper">
+<header
+  class="wrapper"
+  data-name="hero"
+>
   <?php if (isset($p) && $image = $p->image()) { ?>
     <?= component('image', [
       'class' => implode(' ', [

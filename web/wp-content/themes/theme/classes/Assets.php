@@ -4,42 +4,57 @@ namespace Theme;
 
 class Assets
 {
-  static $scriptPath = 'web/wp-content/themes/theme/scripts/theme.js';
-  static $fontUrl = 'https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap';
+  public static string $scriptPath = 'web/wp-content/themes/theme/scripts/theme.js';
+  public static string $fontUrl = 'https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap';
 
-  public static function init()
+  public static function init(): void
   {
+    // Preconnect to Google Fonts
     add_action('wp_head', [static::class, 'preconnect']);
+
+    // Enqueue scripts and styles
     add_action('wp_enqueue_scripts', [static::class, 'enqueue'], 10);
+
+    // Load theme scripts as deferred modules
     add_filter('script_loader_tag', [static::class, 'scriptLoader'], 10, 3);
+
+    // Enqueue block editor styles
     add_action('after_setup_theme', [static::class, 'editorStyles']);
+
+    // Enqueue the block editor customization script
     add_action('enqueue_block_editor_assets', [static::class, 'editorScripts']);
+
+    // Remove the wp-core-ui body class from the block editor
     add_action('admin_footer', [static::class, 'removeBodyClass']);
   }
 
-  // Preconnect to Google fonts
+  /**
+   * Preconnect to Google Fonts.
+   */
   public static function preconnect()
   {
     ?>
     <link
-      rel='preconnect'
       href='https://fonts.googleapis.com'
+      rel='preconnect'
     >
     <link
-      rel='preconnect'
-      href='https://fonts.gstatic.com'
       crossorigin
+      href='https://fonts.gstatic.com'
+      rel='preconnect'
     >
     <?php
   }
 
-  // Enqueue scripts and styles
+  /**
+   * Enqueue scripts and styles.
+   */
   public static function enqueue()
   {
-    // Euqueue custom font
+    // Enqueue custom font
     wp_enqueue_style('font', static::$fontUrl);
 
-    // Enqueue scripts and styles from vite development server or compiled
+    // Enqueue scripts and styles from the Vite development server or compiled files
     if (is_array(wp_remote_get('http://localhost:5173/'))) {
       wp_enqueue_script('vite', 'http://localhost:5173/@vite/client');
       wp_enqueue_script(
@@ -57,8 +72,15 @@ class Assets
     ]);
   }
 
-  // Defer load scripts as modules
-  public static function scriptLoader(string $tag, string $handle, string $src)
+  /**
+   * Load theme scripts as deferred modules.
+   *
+   * @param string $tag
+   * @param string $handle
+   * @param string $src
+   * @return string
+   */
+  public static function scriptLoader($tag, $handle, $src)
   {
     if (in_array($handle, ['theme', 'vite'])) {
       return '<script type="module" src="' .
@@ -69,7 +91,9 @@ class Assets
     return $tag;
   }
 
-  // Enqueue block editor styles
+  /**
+   * Enqueue block editor styles.
+   */
   public static function editorStyles()
   {
     add_theme_support('editor-styles');
@@ -78,7 +102,9 @@ class Assets
     add_editor_style(static::compiled('css'));
   }
 
-  // Enqueue block editor customization script
+  /**
+   * Enqueue the block editor customization script.
+   */
   public static function editorScripts()
   {
     wp_enqueue_script('theme-editor', get_theme_file_uri('scripts/editor.js'), [
@@ -88,8 +114,23 @@ class Assets
     ]);
   }
 
-  // Get URL of compiled CSS or JS
-  private static function compiled(string $type = 'css')
+  /**
+   * Remove the wp-core-ui body class from the block editor to prevent CSS conflicts with WordPress button styles.
+   */
+  public static function removeBodyClass()
+  {
+    if (get_current_screen()->is_block_editor) { ?>
+      <script>
+        const body = document.querySelector('body');
+        body.classList.remove('wp-core-ui');
+      </script>
+    <?php }
+  }
+
+  /**
+   * Get the URL of compiled CSS or JS.
+   */
+  private static function compiled(string $type = 'css'): string
   {
     $manifestPath = get_theme_file_path('dist/.vite/manifest.json');
     $manifest = json_decode(file_get_contents($manifestPath), true);
@@ -101,16 +142,5 @@ class Assets
     ];
 
     return $urls[$type];
-  }
-
-  // Remove .wp-core-ui body class from block editor to prevent CSS conflicts with wp-includes/dist/css/buttons.min.css
-  public static function removeBodyClass()
-  {
-    if (get_current_screen()->is_block_editor) { ?>
-      <script>
-        const body = document.querySelector('body');
-        body.classList.remove('wp-core-ui');
-      </script>
-    <?php }
   }
 }

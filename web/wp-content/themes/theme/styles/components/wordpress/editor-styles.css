@@ -2,6 +2,6 @@
   @apply overflow-x-clip bg-white;
 
   > * {
-    @apply max-w-content mx-auto w-full px-5;
+    @apply mx-auto w-full max-w-content px-5;
   }
 }

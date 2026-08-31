@@ -4,15 +4,21 @@ namespace Theme;
 
 class Performance
 {
-  public static function init()
+  public static function init(): void
   {
+    // Prerender internal URLs when links are hovered
     add_filter('wp_speculation_rules_configuration', [
       static::class,
       'prerenderLinks',
     ]);
   }
 
-  // Set specultion rules to moderate to prerender internal URL's when links are hovered
+  /**
+   * Set speculation rules to moderate to prerender internal URLs when links are hovered.
+   *
+   * @param array|null $config
+   * @return array|null
+   */
   public static function prerenderLinks($config)
   {
     if (is_array($config)) {

@@ -1,5 +1,8 @@
 <?php if ($posts) { ?>
-  <section class="section full-width">
+  <section
+    class="section full-width"
+    data-name="latest-posts"
+  >
     <div class="wrapper">
       <div class="flex flex-wrap justify-between items-end mb-10 md:mb-15">
         <h2 class="h1 md:text-4xl/tight mb-0">
@@ -10,7 +13,7 @@
           'class' => 'button hidden sm:flex',
           'title' => __('View all articles', 'theme'),
           'url' => $link,
-        ]) ?>
+        ]); ?>
       </div>
 
       <?= component('posts', [

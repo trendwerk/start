@@ -21,4 +21,3 @@ $p = new Page(get_the_ID());
 <?= component('cta', ['p' => $p]); ?>
 <?= component('footer'); ?>
 
-

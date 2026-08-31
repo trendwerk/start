@@ -4,34 +4,34 @@ $title = urlencode($p->title());
 
 $buttons = [
   [
-    'title' => __('E-mail this article', 'theme'),
     'href' => "mailto:?subject={$title}&amp;body={$url}",
     'icon' => 'mail',
+    'title' => __('E-mail this article', 'theme'),
   ],
   [
-    'title' => __('Share this article via WhatsApp', 'theme'),
     'href' => "https://wa.me?text={$title}%20-%20{$url}",
     'icon' => 'whatsapp',
+    'title' => __('Share this article via WhatsApp', 'theme'),
   ],
   [
-    'title' => __('Share this article on LinkedIn', 'theme'),
     'href' => "https://www.linkedin.com/shareArticle?url={$url}",
     'icon' => 'linkedin',
+    'title' => __('Share this article on LinkedIn', 'theme'),
   ],
   [
-    'title' => __('Share this article on Facebook', 'theme'),
     'href' => "https://www.facebook.com/sharer.php?u={$url}",
     'icon' => 'facebook',
+    'title' => __('Share this article on Facebook', 'theme'),
   ],
   [
-    'title' => __('Share this article on X', 'theme'),
     'href' => "https://x.com/intent/post?url={$url}&amp;text={$title}",
     'icon' => 'x-social',
+    'title' => __('Share this article on X', 'theme'),
   ],
 ];
 ?>
 
-<div>
+<div data-name="share">
   <p class="mb-2 font-bold text-gray-800">
     <?= __('Share this article', 'theme'); ?>
   </p>
@@ -43,7 +43,7 @@ $buttons = [
         href="<?= $button['href']; ?>"
         title="<?= $button['title']; ?>"
       >
-        <?= component('svg/' . $button['icon'], [ 'class' => 'w-5 h-5' ]); ?>
+        <?= component('svg/' . $button['icon'], ['class' => 'w-5 h-5']); ?>
       </a>
     <?php } ?>
   </div>

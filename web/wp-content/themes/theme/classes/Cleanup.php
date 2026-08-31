@@ -4,7 +4,7 @@ namespace Theme;
 
 class Cleanup
 {
-  public static function init()
+  public static function init(): void
   {
     // Remove stuff from head
     remove_action('wp_head', 'adjacent_posts_rel_link_wp_head', 10);
@@ -23,17 +23,31 @@ class Cleanup
     remove_action('template_redirect', 'wp_shortlink_header', 11);
     remove_action('template_redirect', 'rest_output_link_header', 11);
 
-    // Disable feeds
+    // Redirect the default feed to the homepage
     add_action('do_feed', [static::class, 'disableFeeds'], 1);
+
+    // Redirect the Atom feed to the homepage
     add_action('do_feed_atom', [static::class, 'disableFeeds'], 1);
+
+    // Redirect the RDF feed to the homepage
     add_action('do_feed_rdf', [static::class, 'disableFeeds'], 1);
+
+    // Redirect the RSS feed to the homepage
     add_action('do_feed_rss', [static::class, 'disableFeeds'], 1);
+
+    // Redirect the RSS2 feed to the homepage
     add_action('do_feed_rss2', [static::class, 'disableFeeds'], 1);
+
+    // Redirect the Atom comments feed to the homepage
     add_action('do_feed_atom_comments', [static::class, 'disableFeeds'], 1);
+
+    // Redirect the RSS2 comments feed to the homepage
     add_action('do_feed_rss2_comments', [static::class, 'disableFeeds'], 1);
 
-    // Turn off comments and pings
+    // Disable comments
     add_filter('comments_open', '__return_false');
+
+    // Disable pings
     add_filter('pings_open', '__return_false');
 
     // Remove emojis
@@ -46,7 +60,9 @@ class Cleanup
     remove_filter('wp_mail', 'wp_staticize_emoji_for_email');
   }
 
-  // Redirects all feeds to home page
+  /**
+   * Redirect all feeds to the homepage.
+   */
   public static function disableFeeds()
   {
     wp_redirect(home_url());

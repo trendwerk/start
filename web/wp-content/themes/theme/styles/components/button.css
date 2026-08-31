@@ -8,7 +8,7 @@
 
 .button-outline,
 .wp-block-button.is-style-outline .wp-block-button__link {
-  @apply border-primary-600 text-primary-600 bg-transparent;
+  @apply border-primary-600 bg-transparent text-primary-600;
   @apply hover:border-primary-800 hover:bg-primary-800 hover:text-white;
 }
 

@@ -1,9 +1,10 @@
 <svg
   class="<?= $class ?? ''; ?> flex-none"
+  data-name="chevron-right"
   fill="none"
   height="20"
-  stroke-width="2"
   stroke="currentColor"
+  stroke-width="2"
   viewBox="0 0 20 20"
   width="20"
   xmlns="http://www.w3.org/2000/svg"

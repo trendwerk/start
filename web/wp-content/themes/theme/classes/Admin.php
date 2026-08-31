@@ -6,19 +6,36 @@ use WP_Admin_Bar;
 
 final class Admin
 {
-  public static function init()
+  public static function init(): void
   {
+    // Add and remove admin menu items
     add_action('admin_menu', [static::class, 'adminMenu']);
+
+    // Enable custom admin menu order
     add_filter('custom_menu_order', '__return_true');
+
+    // Reorder admin menu items
     add_action('menu_order', [static::class, 'menuOrder']);
+
+    // Remove admin bar items
     add_action('admin_bar_menu', [static::class, 'adminBar']);
+
+    // Hide the WordPress update notice
     add_action('admin_head', [static::class, 'adminNotices']);
+
+    // Remove admin dashboard widgets
     add_action('wp_dashboard_setup', [static::class, 'dashboardWidgets']);
+
+    // Add public custom post types to the At a Glance widget
     add_filter('dashboard_glance_items', [static::class, 'setGlanceItems']);
+
+    // Remove unused columns from admin posts lists
     add_filter('manage_posts_columns', [static::class, 'managePostsColumns']);
   }
 
-  // Add and remove admin menu items
+  /**
+   * Add and remove admin menu items.
+   */
   public static function adminMenu()
   {
     global $menu;
@@ -30,8 +47,13 @@ final class Admin
     remove_menu_page('edit-comments.php');
   }
 
-  // Reorder admin menu items and put any items not in this list at the end
-  public static function menuOrder(array $order)
+  /**
+   * Reorder admin menu items and put any items not in this list at the end.
+   *
+   * @param array $order
+   * @return array
+   */
+  public static function menuOrder($order)
   {
     $newOrder = [
       'index.php', // Dashboard
@@ -67,23 +89,29 @@ final class Admin
     return array_merge($newOrder, array_diff($order, $newOrder));
   }
 
-  // Remove admin bar items
-  public static function adminBar(WP_Admin_Bar $admin_bar)
+  /**
+   * Remove admin bar items.
+   *
+   * @param WP_Admin_Bar $adminBar
+   */
+  public static function adminBar($adminBar)
   {
-    $admin_bar->remove_menu('comments');
+    $adminBar->remove_menu('comments');
   }
 
-  // Hide WordPress update notice
+  /**
+   * Hide the WordPress update notice.
+   */
   public static function adminNotices()
   {
     remove_action('admin_notices', 'update_nag', 3);
   }
 
-  // Remove admin dashboard widgets
+  /**
+   * Remove admin dashboard widgets.
+   */
   public static function dashboardWidgets()
   {
-    // remove_meta_box('dashboard_right_now', 'dashboard', 'normal'); // At a Glance
-    // remove_meta_box('dashboard_activity', 'dashboard', 'normal'); // Activity
     remove_meta_box('dashboard_site_health', 'dashboard', 'normal'); // Site Health Status
     remove_meta_box('dashboard_primary', 'dashboard', 'side'); // WordPress Events and News
     remove_meta_box('dashboard_quick_press', 'dashboard', 'side'); // Quick Draft
@@ -92,7 +120,12 @@ final class Admin
     remove_meta_box('wp_mail_smtp_reports_widget_lite', 'dashboard', 'normal'); // WP Mail SMTP
   }
 
-  // Add public custom post types to the "At a Glance" dashboard widget
+  /**
+   * Add public custom post types to the At a Glance dashboard widget.
+   *
+   * @param array $items
+   * @return array
+   */
   public static function setGlanceItems($items = [])
   {
     $postTypes = get_post_types(
@@ -119,7 +152,12 @@ final class Admin
     return $items;
   }
 
-  // Remove some columns from admin posts lists
+  /**
+   * Remove unused columns from admin posts lists.
+   *
+   * @param array $columns
+   * @return array
+   */
   public static function managePostsColumns($columns)
   {
     unset($columns['author']);

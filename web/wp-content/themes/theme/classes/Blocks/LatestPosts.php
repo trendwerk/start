@@ -7,15 +7,21 @@ use Theme\Taxonomies\Category;
 
 class LatestPosts
 {
-  protected static $name = 'latest-posts';
-  protected static $title;
+  protected static string $name = 'latest-posts';
+  protected static string $title;
 
-  public static function init()
+  public static function init(): void
   {
+    // Register the latest posts block
     add_action('acf/init', [static::class, 'register']);
+
+    // Register latest posts block fields
     add_action('acf/init', [static::class, 'registerFields']);
   }
 
+  /**
+   * Register the latest posts block.
+   */
   public static function register()
   {
     static::$title = __('Latest articles', 'theme');
@@ -50,6 +56,9 @@ class LatestPosts
     ]);
   }
 
+  /**
+   * Register latest posts block fields.
+   */
   public static function registerFields()
   {
     $key = static::$name;

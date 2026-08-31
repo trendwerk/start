@@ -2,28 +2,40 @@
 
 namespace Theme\Traits;
 
+use WP_Error;
+use WP_Term;
+
 trait IsTerm
 {
-  private $id;
-  private $wpTerm;
+  private int $id;
+  private WP_Term|WP_Error|null $wpTerm;
 
-  public function __construct($id)
+  public function __construct(int $id)
   {
     $this->id = $id;
     $this->wpTerm = get_term($id);
   }
 
-  public function id()
+  /**
+   * Get the term ID.
+   */
+  public function id(): int
   {
     return $this->id;
   }
 
-  public function title()
+  /**
+   * Get the term name.
+   */
+  public function title(): string
   {
     return $this->wpTerm->name;
   }
 
-  public function link()
+  /**
+   * Get the term archive URL.
+   */
+  public function link(): string|WP_Error
   {
     return get_term_link($this->id);
   }

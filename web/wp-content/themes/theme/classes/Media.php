@@ -6,18 +6,36 @@ use Ramsey\Uuid\Nonstandard\Uuid;
 
 class Media
 {
-  public static function init()
+  public static function init(): void
   {
+    // Set image sizes
     add_action('after_setup_theme', [static::class, 'imageSizes']);
+
+    // Don't add links to images by default
     add_action('after_setup_theme', [static::class, 'imageDefaultLinkType']);
-    add_filter('wp_get_attachment_image_src', [static::class, 'productionImages']);
+
+    // Get images from production if they don't exist locally
+    add_filter('wp_get_attachment_image_src', [
+      static::class,
+      'productionImages',
+    ]);
+
+    // Redirect attachment pages to the attachment files
     add_filter('template_redirect', [static::class, 'redirect']);
+
+    // Disable attachment canonical redirect links
     add_filter('redirect_canonical', [static::class, 'canonical'], 0, 1);
+
+    // Disable attachment links
     add_filter('attachment_link', [static::class, 'disableLink'], 10, 2);
+
+    // Randomize attachment slugs to avoid slug reservation
     add_filter('wp_unique_post_slug', [static::class, 'modifySlug'], 10, 4);
   }
 
-  // Set image sizes (only write when the stored option differs)
+  /**
+   * Set image sizes when the stored option differs.
+   */
   public static function imageSizes()
   {
     $sizes = [
@@ -36,7 +54,9 @@ class Media
     }
   }
 
-  // Don't add links to images by default
+  /**
+   * Don't add links to images by default.
+   */
   public static function imageDefaultLinkType()
   {
     if (get_option('image_default_link_type') !== 'none') {
@@ -44,7 +64,12 @@ class Media
     }
   }
 
-  // Get images from production if they don't exist locally
+  /**
+   * Get images from production if they don't exist locally.
+   *
+   * @param array|false $src
+   * @return array|false
+   */
   public static function productionImages($src)
   {
     // Bail if this is the production environment
@@ -81,7 +106,9 @@ class Media
     return $src;
   }
 
-  // Redirect attachment pages to the attachment files
+  /**
+   * Redirect attachment pages to the attachment files.
+   */
   public static function redirect()
   {
     if (is_attachment()) {
@@ -90,31 +117,46 @@ class Media
     }
   }
 
-  // Disable attachment canonical redirect links
-  public static function canonical(string $url)
+  /**
+   * Disable attachment canonical redirect links.
+   *
+   * @param string $url
+   * @return string
+   */
+  public static function canonical($url)
   {
     static::redirect();
 
     return $url;
   }
 
-  // Disable attachment links
-  public static function disableLink(string $url, int $id)
+  /**
+   * Disable attachment links.
+   *
+   * @param string $url
+   * @param int $id
+   * @return string
+   */
+  public static function disableLink($url, $id)
   {
-    if ($attachment_url = wp_get_attachment_url($id)) {
-      return $attachment_url;
+    if ($attachmentUrl = wp_get_attachment_url($id)) {
+      return $attachmentUrl;
     }
 
     return $url;
   }
 
-  // Randomize attachment slugs using UUIDs to avoid slug reservation
-  public static function modifySlug(
-    string $slug,
-    string $id,
-    string $status,
-    string $type
-  ) {
+  /**
+   * Randomize attachment slugs using UUIDs to avoid slug reservation.
+   *
+   * @param string $slug
+   * @param string $id
+   * @param string $status
+   * @param string $type
+   * @return string
+   */
+  public static function modifySlug($slug, $id, $status, $type)
+  {
     if ($type !== 'attachment') {
       return $slug;
     }

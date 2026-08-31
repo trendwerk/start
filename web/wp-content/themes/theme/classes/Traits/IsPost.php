@@ -5,29 +5,39 @@ namespace Theme\Traits;
 use Theme\Taxonomies\Category;
 use Theme\Taxonomies\Tag;
 use Theme\User;
+use WP_Post;
 
 trait IsPost
 {
-  private $id;
-  private $wpPost;
+  private int $id;
+  private WP_Post|null $wpPost;
 
-  public function __construct($id)
+  public function __construct(int $id)
   {
     $this->id = $id;
     $this->wpPost = get_post($id);
   }
 
-  public function id()
+  /**
+   * Get the post ID.
+   */
+  public function id(): int
   {
     return $this->id;
   }
 
-  public function title()
+  /**
+   * Get the post title.
+   */
+  public function title(): string
   {
     return get_the_title($this->id);
   }
 
-  public function content()
+  /**
+   * Get the filtered post content.
+   */
+  public function content(): string
   {
     return apply_filters(
       'the_content',
@@ -35,46 +45,68 @@ trait IsPost
     );
   }
 
-  public function excerpt()
+  /**
+   * Get the post excerpt as plain text.
+   */
+  public function excerpt(): string
   {
     return strip_tags(get_the_excerpt($this->id));
   }
 
-  public function link()
+  /**
+   * Get the post permalink.
+   */
+  public function link(): string
   {
     return get_the_permalink($this->id);
   }
 
-  public static function archiveLink()
+  /**
+   * Get the post type archive URL.
+   */
+  public static function archiveLink(): string|false
   {
     return get_post_type_archive_link(static::$postType);
   }
 
-  public function field($name)
+  /**
+   * Get one ACF field value for this post.
+   */
+  public function field(string $name): mixed
   {
     return get_field($name, $this->id);
   }
 
-  public function image()
+  /**
+   * Get the featured image attachment ID.
+   */
+  public function image(): mixed
   {
     return $this->field('_thumbnail_id');
   }
 
-  public function date()
+  /**
+   * Get the formatted post date.
+   */
+  public function date(): string
   {
     return get_the_date('', $this->id());
   }
 
-  public function author()
+  /**
+   * Get the post author.
+   */
+  public function author(): User
   {
     $authorId = get_post_field('post_author', $this->id());
 
-    return new User($authorId);
-
-    return $author;
+    return new User((int) $authorId);
   }
 
-  public function categories()
+  /**
+   * Get the post categories.
+   */
+  public function categories(): ?array
   {
     $terms = get_the_terms($this->id, Category::$taxonomy);
 
@@ -87,7 +119,10 @@ trait IsPost
     }, $terms);
   }
 
-  public function tags()
+  /**
+   * Get the post tags.
+   */
+  public function tags(): ?array
   {
     $terms = get_the_terms($this->id, Tag::$taxonomy);
 
@@ -100,7 +135,10 @@ trait IsPost
     }, $terms);
   }
 
-  public static function latest($number = 10)
+  /**
+   * Get the latest posts of this post type.
+   */
+  public static function latest(int $number = 10): array
   {
     $ids = get_posts([
       'fields' => 'ids',

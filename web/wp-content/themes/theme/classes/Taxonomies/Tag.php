@@ -8,5 +8,5 @@ class Tag
 {
   use IsTerm;
 
-  static $taxonomy = 'post_tag';
+  public static string $taxonomy = 'post_tag';
 }
