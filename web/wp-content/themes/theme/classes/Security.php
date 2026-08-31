@@ -14,6 +14,8 @@ class Security
 
     // Disable REST API
     add_filter('rest_authentication_errors', [static::class, 'restErrors']);
+
+    // Hide users REST endpoints for visitors
     add_filter('rest_endpoints', [static::class, 'disableRestEndpoints']);
 
     // Hide WordPress version
