@@ -17,21 +17,31 @@ class Media
     add_filter('wp_unique_post_slug', [static::class, 'modifySlug'], 10, 4);
   }
 
-  // Set image sizes
+  // Set image sizes (only write when the stored option differs)
   public static function imageSizes()
   {
-    update_option('thumbnail_size_w', 180);
-    update_option('thumbnail_size_h', '');
-    update_option('medium_size_w', 360);
-    update_option('medium_size_h', '');
-    update_option('large_size_w', 720);
-    update_option('large_size_h', '');
+    $sizes = [
+      'thumbnail_size_w' => 180,
+      'thumbnail_size_h' => '',
+      'medium_size_w' => 360,
+      'medium_size_h' => '',
+      'large_size_w' => 720,
+      'large_size_h' => '',
+    ];
+
+    foreach ($sizes as $option => $value) {
+      if (get_option($option) != $value) {
+        update_option($option, $value);
+      }
+    }
   }
 
   // Don't add links to images by default
   public static function imageDefaultLinkType()
   {
-    update_option('image_default_link_type', 'none');
+    if (get_option('image_default_link_type') !== 'none') {
+      update_option('image_default_link_type', 'none');
+    }
   }
 
   // Get images from production if they don't exist locally
