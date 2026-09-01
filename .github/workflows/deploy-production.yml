@@ -30,13 +30,22 @@ jobs:
           php-version: '8.3'
 
       - name: Deploy via deployer
+        id: deploy
         uses: deployphp/action@v1.0.26
         with:
           dep: deploy production
           private-key: ${{ secrets.PRIVATE_KEY_PRODUCTION }}
 
-      - name: Smoke-check production
+      - name: HTTP status check
+        id: http_status
         run: |
           code=$(curl -sS -o /dev/null -w "%{http_code}" -L --max-time 30 https://start.trendwerk.dev/)
           echo "HTTP $code"
           test "$code" = "200"
+
+      - name: Roll back production
+        if: failure() && steps.deploy.outcome == 'success' && steps.http_status.outcome == 'failure'
+        uses: deployphp/action@v1.0.26
+        with:
+          dep: rollback production
+          private-key: ${{ secrets.PRIVATE_KEY_PRODUCTION }}
