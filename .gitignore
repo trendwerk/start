@@ -18,7 +18,6 @@ web/wp/*
 !.env.example
 !web/wp-content/languages/.gitkeep
 !web/wp-content/languages/plugins
-!web/wp-content/languages/themes
 !web/wp-content/mu-plugins/bedrock-autoloader.php
 !web/wp-content/plugins/.gitkeep
 !web/wp-content/uploads/.gitkeep
