@@ -10,7 +10,7 @@ WordPress starter project for custom theme development with Composer, Vite, Tail
 - **Install:** copy `.env.example` to `.env`, copy `auth.json.example` to `auth.json`, then `composer install` and `npm install`
 - **Local:** webroot `web`; `WP_HOME` e.g. `http://www.start.test`
 - **Config:** `application.php` and `.env` (no `config/environments/*.php`)
-- **Custom code:** Theme `web/wp-content/themes/theme/` only. Plugins are Composer-managed in `web/wp-content/plugins/`. Do not edit `vendor/`, `web/wp/` or third-party plugin files.
+- **Custom code:** Theme `web/wp-content/themes/theme/` only. Plugins, WordPress core and core language packs are Composer-managed (`web/wp-content/plugins/`, `web/wp/`, `web/wp-content/languages/` root). Plugin and theme translations from WP-CLI (`web/wp-content/languages/plugins/`, `web/wp-content/languages/themes/`) are committed. Custom theme translations live in `web/wp-content/themes/theme/languages/`. Do not edit `vendor/`, `web/wp/` or third-party plugin files.
 
 ## PHP Conventions
 
