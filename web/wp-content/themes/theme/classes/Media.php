@@ -20,6 +20,42 @@ class Media
       'productionImages',
     ]);
 
+    // Get attachment URLs from production if they don't exist locally
+    add_filter('wp_get_attachment_url', [static::class, 'productionImages']);
+
+    // Get srcset images from production if they don't exist locally
+    add_filter('wp_calculate_image_srcset', [
+      static::class,
+      'productionImageSrcset',
+    ]);
+
+    // Get content images from production if they don't exist locally
+    add_filter('the_content', [static::class, 'productionContentImages'], 20);
+
+    // Get editor content images from production if they don't exist locally
+    add_filter('the_editor_content', [
+      static::class,
+      'productionContentImages',
+    ]);
+
+    // Get pre-edit content images from production if they don't exist locally
+    add_filter('content_edit_pre', [static::class, 'productionContentImages']);
+
+    // Get ACF content images from production if they don't exist locally
+    add_filter('acf_the_content', [static::class, 'productionContentImages']);
+
+    // Rewrite upload URLs in REST responses used by the block editor
+    add_action('rest_api_init', [static::class, 'registerRestFilters']);
+
+    // Rewrite media-library attachment data for the editor
+    add_filter('wp_prepare_attachment_for_js', [
+      static::class,
+      'productionContentImages',
+    ]);
+
+    // Keep production URLs out of the database
+    add_filter('content_save_pre', [static::class, 'localContentImages']);
+
     // Redirect attachment pages to the attachment files
     add_filter('template_redirect', [static::class, 'redirect']);
 
@@ -67,43 +103,144 @@ class Media
   /**
    * Get images from production if they don't exist locally.
    *
-   * @param array|false $src
-   * @return array|false
+   * @param array|false|string $src
+   * @return array|false|string
    */
   public static function productionImages($src)
   {
-    // Bail if this is the production environment
-    if (WP_ENV == 'production') {
+    if (
+      WP_ENV === 'production' ||
+      !defined('PRODUCTION_URL') ||
+      !PRODUCTION_URL
+    ) {
       return $src;
     }
 
-    // Bail if PRODUCTION_URL is not defined
-    if (!defined('PRODUCTION_URL')) {
+    $isArray = is_array($src);
+    $url = $isArray ? $src[0] ?? '' : $src;
+
+    if (!is_string($url) || $url === '') {
       return $src;
     }
 
-    // Bail if this is not an array
-    if (!is_array($src)) {
-      return $src;
-    }
-
-    // Get file path
     $uploadDir = wp_upload_dir();
-    $file = str_replace($uploadDir['baseurl'], $uploadDir['basedir'], $src[0]);
+    $file = str_replace($uploadDir['baseurl'], $uploadDir['basedir'], $url);
 
-    // Replace the image URL if it doesn't exist locally
     if (!file_exists($file)) {
-      $home = home_url();
-      $production = PRODUCTION_URL;
-
-      $src[0] = str_replace(
-        "{$home}/wp-content/uploads/",
-        "{$production}/wp-content/uploads/",
-        $src[0]
+      $url = str_replace(
+        $uploadDir['baseurl'],
+        rtrim(PRODUCTION_URL, '/') .
+          wp_parse_url($uploadDir['baseurl'], PHP_URL_PATH),
+        $url
       );
     }
 
-    return $src;
+    if ($isArray) {
+      $src[0] = $url;
+
+      return $src;
+    }
+
+    return $url;
+  }
+
+  /**
+   * Get srcset images from production if they don't exist locally.
+   *
+   * @param array $sources
+   * @return array
+   */
+  public static function productionImageSrcset($sources)
+  {
+    if (!is_array($sources)) {
+      return $sources;
+    }
+
+    foreach ($sources as &$source) {
+      if (!empty($source['url'])) {
+        $source['url'] = static::productionImages($source['url']);
+      }
+    }
+
+    return $sources;
+  }
+
+  /**
+   * Get content images from production if they don't exist locally.
+   *
+   * @param mixed $content
+   * @return mixed
+   */
+  public static function productionContentImages($content)
+  {
+    if (is_array($content)) {
+      return array_map([static::class, 'productionContentImages'], $content);
+    }
+
+    if (!is_string($content) || $content === '') {
+      return $content;
+    }
+
+    $baseUrl = wp_upload_dir()['baseurl'];
+
+    return preg_replace_callback(
+      '#' . preg_quote($baseUrl, '#') . '/[^"\'\s<>]+#',
+      function ($match) {
+        return static::productionImages($match[0]);
+      },
+      $content
+    );
+  }
+
+  /**
+   * Rewrite upload URLs in REST responses used by the block editor.
+   */
+  public static function registerRestFilters()
+  {
+    foreach (get_post_types(['show_in_rest' => true], 'names') as $type) {
+      // Rewrite upload URLs in REST responses for this post type
+      add_filter("rest_prepare_{$type}", [
+        static::class,
+        'productionRestResponse',
+      ]);
+    }
+  }
+
+  /**
+   * @param \WP_REST_Response $response
+   * @return \WP_REST_Response
+   */
+  public static function productionRestResponse($response)
+  {
+    $response->set_data(static::productionContentImages($response->get_data()));
+
+    return $response;
+  }
+
+  /**
+   * Convert production upload URLs back to local URLs before saving.
+   *
+   * @param string $content
+   * @return string
+   */
+  public static function localContentImages($content)
+  {
+    if (
+      !is_string($content) ||
+      $content === '' ||
+      WP_ENV === 'production' ||
+      !defined('PRODUCTION_URL') ||
+      !PRODUCTION_URL
+    ) {
+      return $content;
+    }
+
+    $uploadDir = wp_upload_dir();
+    $productionBase =
+      rtrim(PRODUCTION_URL, '/') .
+      wp_parse_url($uploadDir['baseurl'], PHP_URL_PATH);
+
+    return str_replace($productionBase, $uploadDir['baseurl'], $content);
   }
 
   /**
