@@ -47,5 +47,6 @@ jobs:
         if: failure() && steps.deploy.outcome == 'success' && steps.http_status.outcome == 'failure'
         uses: deployphp/action@v1.0.26
         with:
+          skip-ssh-setup: true
           dep: rollback production
           private-key: ${{ secrets.PRIVATE_KEY_PRODUCTION }}
