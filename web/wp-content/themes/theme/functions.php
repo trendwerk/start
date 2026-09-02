@@ -21,6 +21,7 @@ Media::init();
 Menu::init();
 Oembed::init();
 Performance::init();
+Plugins\Acf::init();
 Plugins\WpMailSmtp::init();
 PostTypes\Page::init();
 PostTypes\Post::init();
