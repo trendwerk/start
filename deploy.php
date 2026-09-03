@@ -24,6 +24,7 @@ set('shared_dirs', ['web/wp-content/uploads']);
 host('production')
   ->set('branch', 'main')
   ->set('hostname', 'tw-server-05.twservices.eu')
+  ->set('remote_domain', 'start.trendwerk.dev')
   ->set('remote_user', 'start.trendwerk.dev')
   ->set('remote_url', 'https://start.trendwerk.dev');
 
@@ -98,7 +99,7 @@ task('purge:opcache', function () {
 // Purge Varnish
 task('purge:varnish', function () {
   run(
-    'curl -sX BAN -H "X-Ban-Method: exact" -H "X-Ban-Host: {{remote_user}}" http://localhost/ > /dev/null'
+    'curl -sX BAN -H "X-Ban-Method: exact" -H "X-Ban-Host: {{remote_domain}}" http://localhost/ > /dev/null'
   );
 });
 
