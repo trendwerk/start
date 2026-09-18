@@ -473,10 +473,10 @@
     },
     {
       "name": "koodimonni-language/core-nl_nl",
-      "version": "7.1",
+      "version": "7.1.1",
       "dist": {
         "type": "zip",
-        "url": "https://downloads.wordpress.org/translation/core/7.1/nl_NL.zip"
+        "url": "https://downloads.wordpress.org/translation/core/7.1.1/nl_NL.zip"
       },
       "require": {
         "koodimonni/composer-dropin-installer": ">=0.2.3"
@@ -1206,7 +1206,7 @@
     },
     {
       "name": "roots/wordpress",
-      "version": "7.1",
+      "version": "7.1.1",
       "source": {
         "type": "git",
         "url": "https://github.com/roots/wordpress.git",
@@ -1237,7 +1237,7 @@
       ],
       "support": {
         "issues": "https://github.com/roots/wordpress/issues",
-        "source": "https://github.com/roots/wordpress/tree/7.1"
+        "source": "https://github.com/roots/wordpress/tree/7.1.1"
       },
       "funding": [
         {
@@ -1316,23 +1316,23 @@
     },
     {
       "name": "roots/wordpress-no-content",
-      "version": "7.1",
+      "version": "7.1.1",
       "source": {
         "type": "git",
         "url": "https://github.com/WordPress/WordPress.git",
-        "reference": "7.1"
+        "reference": "7.1.1"
       },
       "dist": {
         "type": "zip",
-        "url": "https://downloads.wordpress.org/release/wordpress-7.1-no-content.zip",
-        "reference": "7.1",
-        "shasum": "7b28e5af89345d79a30b44a16cbe3244379d1765"
+        "url": "https://downloads.wordpress.org/release/wordpress-7.1.1-no-content.zip",
+        "reference": "7.1.1",
+        "shasum": "bb9a161c407ea4bde3f52510d231c93a14e45506"
       },
       "require": {
         "php": ">= 7.4"
       },
       "provide": {
-        "wordpress/core-implementation": "7.1"
+        "wordpress/core-implementation": "7.1.1"
       },
       "suggest": {
         "ext-curl": "Performs remote request operations.",
@@ -1383,7 +1383,7 @@
           "type": "other"
         }
       ],
-      "time": "2026-08-19T20:16:40+00:00"
+      "time": "2026-09-17T19:19:18+00:00"
     },
     {
       "name": "roots/wp-config",
@@ -1859,15 +1859,15 @@
   "packages-dev": [],
   "aliases": [],
   "minimum-stability": "dev",
-  "stability-flags": [],
+  "stability-flags": {},
   "prefer-stable": true,
   "prefer-lowest": false,
   "platform": {
     "php": ">=8.1"
   },
-  "platform-dev": [],
+  "platform-dev": {},
   "platform-overrides": {
     "php": "8.3"
   },
-  "plugin-api-version": "2.6.0"
+  "plugin-api-version": "2.9.0"
 }
