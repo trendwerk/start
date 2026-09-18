@@ -42,6 +42,18 @@ WordPress starter project for custom theme development with Composer, Vite, Tail
 - Vanilla JS for new code
 - Theme scripts: `web/wp-content/themes/theme/scripts/theme.js` (Vite)
 
+## Client messages
+
+- Write in the same language as the client (usually Dutch or English).
+- Write from my perspective (first person: ik / I).
+- Tone: informal, clear, efficient. Be polite and helpful.
+- Explain the problem and the solution. Match the client's technical level. Skip technical detail they do not need.
+- Trello: start with `@[name]`. No closing greeting.
+- Email: start with `Hallo [name],`, end with something polite and helpful.
+- Do not use em dashes (`—`).
+- Sound human, not like an AI.
+- When I paste a draft: fix spelling, grammar and things that are factually incorrect. Keep my wording and style. Mark every change in **bold**.
+
 ## Verification
 
 - After changes that affect the site: test the result (browser when relevant), check `web/wp-content/debug.log` for new errors, fix any related to the change, re-verify until clean
