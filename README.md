@@ -37,7 +37,7 @@ This starter project uses the folowing PHP dependencies and JavaScript packages 
 
 Ensure you have the following installed on your system:
 
-- [PHP](https://www.php.net/) (version 8.1 or higher)
+- [PHP](https://www.php.net/) (version 8.3 or higher)
 - [Composer](https://getcomposer.org/)
 - [Node.js](https://nodejs.org/) (version 23 or higher)
 - [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/)

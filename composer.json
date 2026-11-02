@@ -28,7 +28,7 @@
   "require": {
     "composer/installers": "*",
     "oscarotero/env": "*",
-    "php": ">=8.1",
+    "php": ">=8.3",
     "roots/bedrock-autoloader": "*",
     "roots/wordpress": "*",
     "roots/wp-config": "*",
@@ -40,8 +40,10 @@
     "wpackagist-plugin/wp-mail-smtp": "*",
     "wpengine/advanced-custom-fields-pro": "*",
     "ramsey/uuid": "^4.7",
-    "league/glide": "^3.0",
-    "deployer/deployer": "^7.5"
+    "league/glide": "^3.0"
+  },
+  "require-dev": {
+    "deployer/deployer": "^8.0"
   },
   "config": {
     "optimize-autoloader": true,
@@ -52,7 +54,7 @@
       "koodimonni/composer-dropin-installer": true
     },
     "platform": {
-      "php": "8.3"
+      "php": "8.4"
     }
   },
   "minimum-stability": "dev",
