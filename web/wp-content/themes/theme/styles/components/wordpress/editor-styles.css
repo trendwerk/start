@@ -4,4 +4,8 @@
   > * {
     @apply mx-auto w-full max-w-content px-5;
   }
+
+  a {
+    @apply pointer-events-none;
+  }
 }
