@@ -74,7 +74,8 @@
     },
     "installer-paths": {
       "web/wp-content/mu-plugins/{$name}/": [
-        "type:wordpress-muplugin"
+        "type:wordpress-muplugin",
+        "wpackagist-plugin/two-factor"
       ],
       "web/wp-content/plugins/{$name}/": [
         "type:wordpress-plugin"
