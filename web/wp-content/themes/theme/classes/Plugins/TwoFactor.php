@@ -35,7 +35,7 @@ class TwoFactor
 
     $user = get_userdata($userId);
 
-    if (!$user instanceof WP_User || !$user->has_cap('manage_options')) {
+    if (!($user instanceof WP_User) || !static::isAdministrator($user)) {
       return $providers;
     }
 
@@ -44,6 +44,29 @@ class TwoFactor
     }
 
     return $providers;
+  }
+
+  /**
+   * Check whether the user is an administrator on this site or, on a
+   * multisite, on any of the network's sites, since they share one login.
+   */
+  private static function isAdministrator(WP_User $user): bool
+  {
+    if ($user->has_cap('manage_options')) {
+      return true;
+    }
+
+    if (!is_multisite()) {
+      return false;
+    }
+
+    foreach (array_keys(get_blogs_of_user($user->ID)) as $siteId) {
+      if (user_can_for_site($user, $siteId, 'manage_options')) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   /**
