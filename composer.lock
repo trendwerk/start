@@ -4,7 +4,7 @@
     "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
     "This file is @generated automatically"
   ],
-  "content-hash": "d7b06b4d9864f96dc14cbdfe87518e74",
+  "content-hash": "d4aa32f799cb050ab21177bd2302f65e",
   "packages": [
     {
       "name": "brick/math",
@@ -1634,12 +1634,12 @@
       "version": "v5.7.0",
       "source": {
         "type": "git",
-        "url": "https://github.com/vlucas/phpdotenv.git",
+        "url": "https://github.com/phpdotenv/phpdotenv.git",
         "reference": "301c07936b16d88628b126b01d082ba153cf4c40"
       },
       "dist": {
         "type": "zip",
-        "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/301c07936b16d88628b126b01d082ba153cf4c40",
+        "url": "https://api.github.com/repos/phpdotenv/phpdotenv/zipball/301c07936b16d88628b126b01d082ba153cf4c40",
         "reference": "301c07936b16d88628b126b01d082ba153cf4c40",
         "shasum": ""
       },
@@ -1748,6 +1748,24 @@
       },
       "type": "wordpress-plugin",
       "homepage": "https://wordpress.org/plugins/seo-by-rank-math/"
+    },
+    {
+      "name": "wpackagist-plugin/two-factor",
+      "version": "0.17.0",
+      "source": {
+        "type": "svn",
+        "url": "https://plugins.svn.wordpress.org/two-factor/",
+        "reference": "tags/0.17.0"
+      },
+      "dist": {
+        "type": "zip",
+        "url": "https://downloads.wordpress.org/plugin/two-factor.0.17.0.zip"
+      },
+      "require": {
+        "composer/installers": "^1.0 || ^2.0"
+      },
+      "type": "wordpress-plugin",
+      "homepage": "https://wordpress.org/plugins/two-factor/"
     },
     {
       "name": "wpackagist-plugin/varnish-http-purge",
@@ -2634,5 +2652,5 @@
   "platform-overrides": {
     "php": "8.4"
   },
-  "plugin-api-version": "2.9.0"
+  "plugin-api-version": "2.11.0"
 }
