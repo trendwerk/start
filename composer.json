@@ -26,28 +26,29 @@
     }
   },
   "require": {
-    "composer/installers": "*",
-    "oscarotero/env": "*",
     "php": ">=8.3",
+    "composer/installers": "*",
+    "koodimonni-language/core-nl_nl": "*",
+    "league/glide": "^3.0",
+    "oscarotero/env": "*",
+    "ramsey/uuid": "^4.7",
     "roots/bedrock-autoloader": "*",
     "roots/wordpress": "*",
     "roots/wp-config": "*",
     "vlucas/phpdotenv": "*",
-    "koodimonni-language/core-nl_nl": "*",
     "wpackagist-plugin/limit-login-attempts": "*",
     "wpackagist-plugin/seo-by-rank-math": "*",
+    "wpackagist-plugin/two-factor": "*",
     "wpackagist-plugin/varnish-http-purge": "*",
     "wpackagist-plugin/wp-mail-smtp": "*",
-    "wpengine/advanced-custom-fields-pro": "*",
-    "ramsey/uuid": "^4.7",
-    "league/glide": "^3.0",
-    "wpackagist-plugin/two-factor": "*"
+    "wpengine/advanced-custom-fields-pro": "*"
   },
   "require-dev": {
     "deployer/deployer": "^8.0"
   },
   "config": {
     "optimize-autoloader": true,
+    "sort-packages": true,
     "preferred-install": "dist",
     "allow-plugins": {
       "composer/installers": true,
