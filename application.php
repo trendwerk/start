@@ -71,9 +71,6 @@ ini_set('display_errors', '0');
 Config::define('DEV_MAIL_TO', env('DEV_MAIL_TO'));
 Config::define('PRODUCTION_URL', env('PRODUCTION_URL'));
 
-// Two Factor
-Config::define('TWOFACTOR_IP_WHITELIST', env('TWOFACTOR_IP_WHITELIST') ?: '');
-
 // WP Mail SMTP
 Config::define('WPMS_ON', env('WPMS_ON') ?? false);
 Config::define('WPMS_MAIL_FROM', env('WPMS_MAIL_FROM'));
