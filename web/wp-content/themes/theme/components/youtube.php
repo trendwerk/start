@@ -1,15 +1,11 @@
 <?php
+use Theme\Oembed;
+
 if (!$youtubeId) {
   return;
 }
 
-// Get thumbnail image URL
-$image = "https://i.ytimg.com/vi/{$youtubeId}/maxresdefault.jpg";
-$status = wp_remote_retrieve_response_code(wp_remote_get($image));
-
-if ($status !== 200) {
-  $image = "https://i.ytimg.com/vi/{$youtubeId}/hqdefault.jpg";
-}
+$image = Oembed::thumbnail($youtubeId);
 ?>
 
 <div
