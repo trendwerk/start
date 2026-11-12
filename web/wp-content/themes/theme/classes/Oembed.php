@@ -44,4 +44,28 @@ class Oembed
       'youtubeId' => $youtubeId,
     ]);
   }
+
+  /**
+   * Get the largest available thumbnail of a YouTube video. Cached, because checking it takes a request to YouTube.
+   */
+  public static function thumbnail(string $youtubeId): string
+  {
+    $key = "youtube_thumbnail_{$youtubeId}";
+    $image = get_transient($key);
+
+    if ($image) {
+      return $image;
+    }
+
+    $image = "https://i.ytimg.com/vi/{$youtubeId}/maxresdefault.jpg";
+    $status = wp_remote_retrieve_response_code(wp_remote_get($image));
+
+    if ($status !== 200) {
+      $image = "https://i.ytimg.com/vi/{$youtubeId}/hqdefault.jpg";
+    }
+
+    set_transient($key, $image, MONTH_IN_SECONDS);
+
+    return $image;
+  }
 }
