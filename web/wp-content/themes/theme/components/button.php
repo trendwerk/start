@@ -7,7 +7,7 @@
   }
 
   if (!empty($target) && $target === '_blank') {
-    echo 'rel="nofollow" ';
+    echo 'rel="noopener" ';
   }
 
   if (!empty($target)) {
