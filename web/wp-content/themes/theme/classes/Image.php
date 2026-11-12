@@ -162,7 +162,7 @@ class Image
     // Replace image URL so it is handled by Glide
     $src = str_replace('/wp-content/uploads', '/img?url=', $this->url);
 
-    // Add fit, format and quality. WebP at 75 looks the same as the default 90 at about half the size
+    // Add fit, format and quality
     $params = array_merge($params, [
       'fit' => $this->fit,
       'fm' => 'webp',
