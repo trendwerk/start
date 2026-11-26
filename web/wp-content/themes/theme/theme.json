@@ -12,68 +12,7 @@
       "defaultPalette": false,
       "duotone": [],
       "gradients": [],
-      "palette": [
-        {
-          "slug": "white",
-          "color": "#ffffff",
-          "name": "White"
-        },
-        {
-          "slug": "gray-100",
-          "name": "Gray 100",
-          "color": "#F3F4F6"
-        },
-        {
-          "slug": "gray-200",
-          "name": "Gray 200",
-          "color": "#F3F4F6"
-        },
-        {
-          "slug": "gray-400",
-          "name": "Gray 400",
-          "color": "#9AA1B0"
-        },
-        {
-          "slug": "gray-600",
-          "name": "Gray 600",
-          "color": "#4A5565"
-        },
-        {
-          "slug": "gray-800",
-          "name": "Gray 800",
-          "color": "#1E2939"
-        },
-        {
-          "slug": "blue-100",
-          "name": "Blue 100",
-          "color": "#DBECFF"
-        },
-        {
-          "slug": "blue-600",
-          "name": "Blue 600",
-          "color": "#165DFD"
-        },
-        {
-          "slug": "blue-800",
-          "name": "Blue 800",
-          "color": "#1B3CBA"
-        },
-        {
-          "slug": "rose-600",
-          "name": "Rose 600",
-          "color": "#ED0040"
-        },
-        {
-          "slug": "amber-400",
-          "name": "Amber 400",
-          "color": "#FFBA00"
-        },
-        {
-          "slug": "emerald-600",
-          "name": "Emerald 600",
-          "color": "#009966"
-        }
-      ]
+      "palette": []
     },
     "shadow": {
       "defaultPresets": false
@@ -92,37 +31,8 @@
     },
     "blocks": {
       "core/button": {
-        "color": {
-          "palette": []
-        },
         "border": {
           "radius": false
-        }
-      },
-      "core/paragraph": {
-        "typography": {
-          "fontSizes": [
-            {
-              "name": "Small",
-              "slug": "sm",
-              "size": "0.875rem"
-            },
-            {
-              "name": "Medium",
-              "slug": "md",
-              "size": "1rem"
-            },
-            {
-              "name": "Large",
-              "slug": "lg",
-              "size": "1.125rem"
-            },
-            {
-              "name": "Extra large",
-              "slug": "xl",
-              "size": "1.25rem"
-            }
-          ]
         }
       }
     }
